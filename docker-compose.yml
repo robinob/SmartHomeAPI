@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database Service
+  postgres-db:
+    image: postgres:16-alpine
+    container_name: smart-home-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: smartuser
+      POSTGRES_PASSWORD: smartpassword
+      POSTGRES_DB: smartdb
+    ports:
+      - "5432:5432" # Exposes default PostgreSQL port to host
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # RabbitMQ Message Queue Service
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: smart-home-rabbitmq
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbituser
+      RABBITMQ_DEFAULT_PASS: rabbitpass
+    ports:
+      - "5672:5672"   # AMQP port (used by Spring Boot)
+      - "15672:15672" # Management UI port (http://localhost:15672)
+
+volumes:
+  postgres_data:

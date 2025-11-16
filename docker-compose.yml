@@ -1,4 +1,4 @@
-
+version: '3.8'
 
 services:
   # PostgreSQL Database Service
@@ -14,6 +14,8 @@ services:
       - "5432:5432" # Exposes default PostgreSQL port to host
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend # Assigns PostgreSQL to the shared network
 
   # RabbitMQ Message Queue Service
   rabbitmq:
@@ -21,11 +23,20 @@ services:
     container_name: smart-home-rabbitmq
     restart: always
     environment:
-      RABBITMQ_DEFAULT_USER: rabbituser
-      RABBITMQ_DEFAULT_PASS: rabbitpass
+      RABBITMQ_DEFAULT_USER: guest # Switched to common 'guest' for easier Spring Boot configuration
+      RABBITMQ_DEFAULT_PASS: guest # Switched to common 'guest' for easier Spring Boot configuration
     ports:
       - "5672:5672"   # AMQP port (used by Spring Boot)
       - "15672:15672" # Management UI port (http://localhost:15672)
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq # IMPORTANT: Added volume for persistence
+    networks:
+      - backend # Assigns RabbitMQ to the shared network
+
+networks:
+  backend:
+    driver: bridge # Defines the shared network
 
 volumes:
   postgres_data:
+  rabbitmq_data: # IMPORTANT: Defined the new RabbitMQ volume

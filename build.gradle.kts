@@ -31,6 +31,9 @@ dependencies {
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
 
+    // NEW: Actuator for Monitoring and Health Checks
+    implementation ("org.springframework.boot:spring-boot-starter-actuator")
+
     // Testing dependencies go here...
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation(platform("org.junit:junit-bom:5.10.0"))

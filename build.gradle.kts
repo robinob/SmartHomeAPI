@@ -34,6 +34,9 @@ dependencies {
     // NEW: Actuator for Monitoring and Health Checks
     implementation ("org.springframework.boot:spring-boot-starter-actuator")
 
+    // NEW: Spring Security
+    implementation ("org.springframework.boot:spring-boot-starter-security")
+
     // Testing dependencies go here...
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation(platform("org.junit:junit-bom:5.10.0"))

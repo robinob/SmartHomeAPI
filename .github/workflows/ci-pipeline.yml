@@ -1,0 +1,41 @@
+# Workflow name displayed on GitHub
+name: Java CI with Gradle
+
+# Define when the workflow should run
+on:
+  push:
+    # Trigger on any push to the develop branch
+    branches: [ develop ]
+  pull_request:
+    # Trigger on any pull request targeting the develop branch
+    branches: [ develop ]
+
+# Define the jobs to be executed
+jobs:
+  build:
+    # Run the job on the latest version of Ubuntu
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout the repository code
+      - uses: actions/checkout@v4
+
+      # 2. Set up the Java environment
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      # 3. Grant execution permissions to the Gradle Wrapper (necessary on Linux runners)
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      # 4. Run the Gradle build task
+      - name: Build with Gradle
+        # We use the '--no-daemon' option as best practice for CI environments
+        run: ./gradlew build --no-daemon
+
+    # NOTE: Since we don't have unit tests yet, the 'build' task will compile the code,
+    # check dependencies, and ensure the application can be packaged into a jar.

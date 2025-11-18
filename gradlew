@@ -232,3 +232,5 @@ eval "set -- $(
     )" '"$@"'
 
 exec "$JAVACMD" "$@"
+
+# Dummy line to force Git to push executable permission
